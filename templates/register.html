@@ -26,7 +26,7 @@
         else {
             $.ajax({
                 type: "POST",
-                url: "/register/check",
+                url: "/api/register/check",
                 data: { Id_give: Id },
                 success: function (response) {
                     if (response["result"] == "success") {
@@ -63,7 +63,7 @@
         else {
             $.ajax({
                 type: "POST",
-                url: "/register",
+                url: "/api/register",
                 data: { Id_give: Id, Pw_give: Pw, nickname_give: nickname },
                 success: function (response) {
                     if (response["result"] == "success") {
