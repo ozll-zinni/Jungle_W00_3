@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>간단한 할 일 목록</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .btn-warning {
+            color: white;
+        }
+    </style>
+</head>
+
+<script>
+    var Id_state = false
+    function Id_Chk() {
+        let Id = $('#Id-val').val();
+        if (Id == "") {
+            alert("아이디를 입력해주세요");
+        }
+        else {
+            $.ajax({
+                type: "POST",
+                url: "/register/check",
+                data: { Id_give: Id },
+                success: function (response) {
+                    if (response["result"] == "success") {
+                        alert("사용 가능한 아이디입니다");
+                        return Id_state = true
+                    } else {
+                        alert("중복된 아이디입니다!");
+                    }
+                }
+            })
+        }
+    }
+    function SendIdPw() {
+        let Id = $('#Id-val').val();
+        let Pw = $('#Pw-val').val();
+        let Pw2 = $('#Pw-val2').val();
+        let nickname = $('#nickname').val();
+        let Pw_state = false
+        if (Pw == Pw2) {
+            Pw_state = true
+        }
+        if (Id_state == false) {
+            alert("중복 확인을 해주세요");
+        }
+        else if (Pw_state == false) {
+            alert("비밀번호가 다릅니다");
+        }
+        else if (nickname == "") {
+            alert("닉네입을 입력해주세요")
+        }
+        else if (Pw == "") {
+            alert("비밀번호를 입력해주세요")
+        }
+        else {
+            $.ajax({
+                type: "POST",
+                url: "/register",
+                data: { Id_give: Id, Pw_give: Pw, nickname_give: nickname },
+                success: function (response) {
+                    if (response["result"] == "success") {
+                        alert("회원가입 성공");
+                        ReturnToLogin();
+                    } else {
+                        alert("회원가입 실패. 다시 시도해주세요");
+                    }
+                }
+            })
+        }
+    }
+    function ReturnToLogin() {
+        location.href = "login"
+    }
+</script>
+
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">회원가입</h2>
+        <!-- 할 일 추가 폼 -->
+        <form class="form-inline mb-4">
+            <input id="Id-val" type="text" class="form-control mr-2 w-50" placeholder="Id를 입력해주세요">
+            <button type="button" class="btn btn-primary" onclick="Id_Chk()">중복 확인</button>
+            <input id="nickname" type="text" class="form-control mr-2 w-50" placeholder="닉네임을 입력해주세요">
+            <input id="Pw-val" type="text" class="form-control mr-2 w-50" placeholder="Pw를 입력해주세요">
+            <input id="Pw-val2" type="text" class="form-control mr-2 w-50" placeholder="Pw를 다시 입력해주세요">
+            <button type="button" class="btn btn-primary" onclick="SendIdPw()">회원가입</button>
+        </form>
+    </div>
+</body>

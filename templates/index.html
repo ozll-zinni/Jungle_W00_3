@@ -1,2 +1,32 @@
 <!DOCTYPE html>
 <html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>메인 페이지</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f8f9fa;
+        }
+
+        .button-container {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="button-container">
+        <h2>환영합니다!</h2>
+        <button class="btn btn-primary btn-lg" onclick="location.href='login'">로그인</button>
+        <button class="btn btn-secondary btn-lg" onclick="location.href='register'">회원가입</button>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>간단한 할 일 목록</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .btn-warning {
+            color: white;
+        }
+    </style>
+</head>
+<script>
+    function SendIdPw() {
+        let Id = $('#Id-val').val();
+        let Pw = $('#Pw-val').val();
+
+        if (Id == "") {
+            alert("아이디를 입력해주세요")
+        }
+        else if (Pw == "") {
+            alert("비밀번호를 입력해주세요")
+        }
+        else {
+            $.ajax({
+                type: "POST",
+                url: "/login",
+                data: { Id_give: Id, Pw_give: Pw },
+                success: function (response) {
+                    if (response["result"] == "success") {
+                        alert("로그인 성공");
+                        ReturnToMain();
+                    } else {
+                        alert("로그인 실패. 다시 시도해주세요");
+                    }
+                }
+            })
+        }
+    }
+    function ReturnToMain() {
+        location.href = "../"
+    }
+</script>
+
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">로그인</h2>
+        <!-- 할 일 추가 폼 -->
+        <form class="form-inline mb-4">
+            <input id="Id-val" type="text" class="form-control mr-2 w-50" placeholder="Id를 입력해주세요">
+            <input id="Pw-val" type="password" class="form-control mr-2 w-50" placeholder="Pw를 입력해주세요">
+            <button type="button" class="btn btn-primary" onclick="SendIdPw()">로그인</button>
+        </form>
+    </div>
+</body>
