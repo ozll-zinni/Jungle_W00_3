@@ -14,7 +14,7 @@ SECRET_KEY = "jgwk00t3"
 Image = ["img/Snipaste_2024-08-05_19-26-00.png","img/Snipaste_2024-08-05_19-34-38.png","img/Snipaste_2024-08-05_20-00-47.png", "img/Snipaste_2024-08-05_20-01-22.png"]
 # data = [{"name ":"name1", "category":"category1","img_src":["img1","img2","img3"], "open":"time1", "description":"info1"}]
 data = list(db.stores.find({},{'_id':0}))
-review_data = list(db.Review.find({},{'_id':0}))
+
 @app.route('/')
 def home():
     state = True
@@ -36,6 +36,7 @@ def details(name):
     state = False
     store_name=name
     token_receive = request.cookies.get('mytoken')
+    review_data = list(db.Review.find({},{'_id':0}))
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         Id_info = payload['id']
