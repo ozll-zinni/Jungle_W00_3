@@ -251,11 +251,11 @@
                                                 <i class="fas fa-star"></i>
                                             </span>
                                             <span class="text-danger">
-                                                {% if ns.review_count > 0 %}
-                                                    {{ (ns.review_score / ns.review_count)|round(2) }}
-                                                {% else %}
-                                                    0
-                                                {% endif %}
+                                            {% if ns.review_count > 0 %}
+                                                {{ (ns.review_score / ns.review_count)|round(2) }}
+                                            {% else %}
+                                                0
+                                            {% endif %}
                                             </span>
                                         </p>
                                     </div>
@@ -305,14 +305,35 @@
                             <button class="nav-link" id="info-tab" data-bs-toggle="tab" data-bs-target="#info"
                                 type="button" role="tab" aria-controls="info" aria-selected="true">Info</button>
                         </li>
-
                     </ul>
-                    <div class="tab-content" id="myTabContent">
+                    <div class="tab-content mt-1" id="myTabContent">
                         <div class="tab-pane fade" id="info" role="tabpanel" aria-labelledby="info-tab">
-                            <p>{{ select_store['open'] }}</p>
-                            <p>{{ select_store['description'] }}</p>
+                            <div class="d-flex justify-content-between">
+                                <div style="width: 20rem;"><p>
+                                    {% for open_time in select_store["open"] %}
+                                        {% for element in open_time %}
+                                            {{ element }}
+                                            <br>
+                                        {% endfor %}
+                                    {% endfor %}
+                                </p></div>
+                                <div style="width: 100%;"><p>{{ select_store['description'] }}</p></div>
+                            </div>
                         </div>
-                        <div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
+                        <div class="tab-pane fade show active" id="review" role="tabpanel" aria-labelledby="review-tab">
+                            <div class="mb-3">
+                                <select id="score">
+                                    <option value="none" selected> 별점을 선택해주세요 </option>
+                                    <option value="1"> * </option>
+                                    <option value="2"> ** </option>
+                                    <option value="3"> *** </option>
+                                    <option value="4"> **** </option>
+                                    <option value="5"> ***** </option>
+                                </select>
+                                <br>
+                                <div class="d-flex"><input id="review-val" type="text" class="form-control mr-2 w-50" placeholder="한줄평 남겨주세요"
+                                    maxlength="50"> <span><button class="btn btn-outline-secondary" type="button" onclick="postreview()">Enter</button></span></div>
+                            </div>
                             {% for store_review in review_data %}
                                 {% if store_review['store_name'] == store_name %}
                                 <br>
