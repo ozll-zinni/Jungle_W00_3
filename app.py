@@ -15,6 +15,8 @@ SECRET_KEY = "jgwk00t3"
 @app.route('/')
 def home():
     token_receive = request.cookies.get('mytoken')
+    if token_receive == None:
+        return render_template('index.html')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         user_info = db.Account.find_one({"Id": payload['id']})
@@ -69,7 +71,7 @@ def api_login():
     if result:
         payload = {
             'id': Id_receive,
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=5)
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=5)
         }
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
         return jsonify({'result': 'success', 'token': token})
