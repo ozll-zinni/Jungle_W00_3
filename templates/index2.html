@@ -312,6 +312,20 @@
                             <p>{{ select_store['description'] }}</p>
                         </div>
                         <div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
+                            <div class="mb-3">
+                                <select id="score">
+                                    <option value="none" selected> 별점을 선택해주세요 </option>
+                                    <option value="1"> * </option>
+                                    <option value="2"> ** </option>
+                                    <option value="3"> *** </option>
+                                    <option value="4"> **** </option>
+                                    <option value="5"> ***** </option>
+                                </select>
+                                <input id="review-val" type="text" class="form-control mr-2 w-50" placeholder="한줄평 남겨주세요"
+                                    maxlength="50">
+                                <button class="btn btn-outline-secondary" type="button" onclick="postreview()">Enter</button>
+                            </div>
+                            
                             {% for store_review in review_data %}
                                 {% if store_review['store_name'] == store_name %}
                                 <br>
@@ -319,17 +333,7 @@
                                     <p>{{ store_review['review'] }}</p>
                                 {% endif %}
                             {% endfor %}
-                            <select id="score">
-                                <option value="none" selected> 별점을 선택해주세요 </option>
-                                <option value="1"> * </option>
-                                <option value="2"> ** </option>
-                                <option value="3"> *** </option>
-                                <option value="4"> **** </option>
-                                <option value="5"> ***** </option>
-                            </select>
-                            <input id="review-val" type="text" class="form-control mr-2 w-50" placeholder="한줄평 남겨주세요"
-                                maxlength="50">
-                            <button class="btn btn-outline-secondary" type="button" onclick="postreview()">Enter</button>
+                            
                         </div>
                     </div>
                 </div>
