@@ -19,8 +19,9 @@ review_data = list(db.Review.find({},{'_id':0}))
 def home():
     state = True
     token_receive = request.cookies.get('mytoken')
+    review_data = list(db.Review.find({},{'_id':0}))
     if token_receive == None:
-        return render_template('index2.html', state=state, image1=Image[0],image2=Image[1],image3=Image[2],image4=Image[3],data=data)
+        return render_template('index2.html', state=state, image1=Image[0],image2=Image[1],image3=Image[2],image4=Image[3],data=data,review_data=review_data)
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         user_info = db.Account.find_one({"Id": payload['id']})
@@ -63,7 +64,7 @@ def post_review():
     review_list = {'Id' : Id_receive, 'store_name' : store_name_receive, 'nickname': nickname_receive, 'review':review_receive, 'score':score_receive}
     result = db.Review.insert_one(review_list)
     if result:
-        return redirect(url_for('details'))
+        return jsonify({'result': 'success'})
     else:
         return jsonify({'result': 'fail'})
 

@@ -148,6 +148,7 @@
             success: function (response) {
                 if (response["result"] == "success") {
                     alert("등록 성공");
+                    location.href = '/'
                 } else {
                     alert("등록 실패. 다시 시도해주세요");
                 }
@@ -230,16 +231,19 @@
                                     <div class="card-body">
                                         <a class="card-title" href="/details/{{ store['name'] }}">{{ store["name"] }}</a>
                                         <p class="card-text">
+                                            <span class="icon">
+                                                <i class="fas fa-comment"></i>
+                                            </span>
                                             {% set ns = namespace(review_count=0, review_score=0) %}
                                             {% for store_review in review_data %}
-                                                {% if store_review['store_name'] == store_name %}
+                                                {% if store_review['store_name'] == store["name"] %}
                                                     {% set ns.review_count = ns.review_count + 1 %}
-                                                    {% set ns.review_score = ns.review_score + store_review['score'] %}
+                                                    {% set ns.review_score = ns.review_score + store_review['score']|int %}
                                                 {% endif %}
                                             {% endfor %}
                                             {{ ns.review_count }}
                                             <span class="icon">
-                                                <i class="fas fa-thumbs-up"></i>
+                                                <i class="fas fa-star"></i>
                                             </span>
                                             <span class="text-danger">
                                                 {% if ns.review_count > 0 %}
@@ -305,7 +309,9 @@
                         <div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
                             {% for store_review in review_data %}
                                 {% if store_review['store_name'] == store_name %}
-                                    <p>{{ store_review['nickname'] }}님<span>{{ store_review['score'] }}</span> {{ store_review['review'] }}</p>
+                                <br>
+                                    <p>{{ store_review['nickname'] }}님은 <span>{{ store_review['score'] }}점! 주셨어요</span> </p>
+                                    <p>{{ store_review['review'] }}</p>
                                 {% endif %}
                             {% endfor %}
                             <input id="review-val" type="text" class="form-control mr-2 w-50" placeholder="한줄평 남겨주세요"
