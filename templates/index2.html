@@ -1,15 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jungle Course</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -22,57 +28,71 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 10px;
+            border-radius: 20px;
             padding: 20px;
             box-sizing: border-box;
         }
 
         .text-with-images {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 5px;
             text-align: center;
+            font-weight: bolder;
+            font-size: 5rem;
+            width: 100%;
+            height: 100%;
+            letter-spacing: 0.05em;
         }
 
         .text-with-images span {
-            font-size: 2.5rem; /* Updated font size */
+            font-size: 3.5rem;
+            /* Updated font size */
             color: white;
-            font-weight: bold;
-            width: 100%;
+            font-weight: bolder;
         }
 
         .text-with-images img {
             object-fit: cover;
             border-radius: 5px;
+            text-align: center;
         }
 
-        .text-with-images img:nth-child(2) { /* Image 1 */
-            width: 685px;
-            height: 69px;
+        .carousel-item img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            margin-bottom: 5%;
         }
 
-        .text-with-images img:nth-child(4) { /* Image 2 */
-            width: 416px;
-            height: 69px;
+        #img1 {
+            /* Image 1 */
+            width: 700px !important;
+            height: 90px;
         }
 
-        .text-with-images img:nth-child(6) { /* Image 3 */
-            width: 121px;
-            height: 69px;
+        #img2 {
+            /* Image 2 */
+            width: 550px !important;
+            height: 90px;
         }
 
-        .text-with-images img:nth-child(8) { /* Image 4 */
-            width: 256px;
-            height: 69px;
+        #img3 {
+            /* Image 3 */
+            width: 160px !important;
+            height: 90px;
         }
+
+        #img4 {
+            /* Image 4 */
+            width: 280px !important;
+            height: 90px;
+        }
+
         .card {
             margin-bottom: 1rem;
         }
 
         .card-title {
             font-size: 1.25rem;
-            text-decoration-line: none;    
+            text-decoration-line: none;
         }
 
         .card-text {
@@ -91,13 +111,29 @@
         .navbar-brand img {
             margin-right: 0.5rem;
         }
+
+        .nanum-pen-script-regular {
+            font-family: "Nanum Pen Script", cursive;
+            font-weight: bolder;
+            font-size: 3rem;
+            font-style: normal;
+            color: #6EAE6D;
+            margin-left: 10%;
+        }
+
+        .course {
+            font-weight: bolder;
+            font-size: 2.5rem;
+            font-style: normal;
+            letter-spacing: -0.05em;
+        }
     </style>
 </head>
 
 <script>
     function logout() {
         Cookies.remove('mytoken')
-        location.href='/'
+        location.href = '/'
     }
     function postreview() {
         let review = $('#review-val').val()
@@ -108,7 +144,7 @@
         $.ajax({
             type: "POST",
             url: "/api/postreview",
-            data: { review_give: review, score_give: score, Id_give:Id, storename_give:storename, nickname_give:nickname },
+            data: { review_give: review, score_give: score, Id_give: Id, storename_give: storename, nickname_give: nickname },
             success: function (response) {
                 if (response["result"] == "success") {
                     alert("등록 성공");
@@ -121,86 +157,106 @@
 </script>
 
 <body>
-    <nav class="navbar">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/">
+    <div class="container-fluid">
+        <nav class="navbar">
+            <a class="navbar-brand nanum-pen-script-regular" href="/">
                 JUNGLE
             </a>
             {% if nickname %}
-            <div class="head-button">
-                <a>{{nickname}}님 환영합니다</a>
-                <button class="btn btn-outline-success" type="button" onclick="logout()">로그아웃</button>
-            </div>
+                <div class="head-button">
+                    <a>{{nickname}}님 환영합니다</a>
+                    <button class="btn btn-danger" type="button" onclick="logout()">로그아웃</button>
+                </div>
             {% else %}
-            <div class="head-button">
-                <button class="btn btn-outline-success" type="button" onclick="location.href='login'">로그인</button>
-                <button class="btn btn-outline-success" type="button" onclick="location.href='register'">회원가입</button>
-            </div>
+                <div class="head-button" style="margin-right: 10%;">
+                    <button class="btn btn-success" type="button" onclick="location.href='login'">로그인</button>
+                    <button class="btn btn-primary" type="button" onclick="location.href='register'">회원가입</button>
+                </div>
             {% endif %}
-        </div>
-    </nav>
-    {% if state %}
-    <header>
-        <div class="container green-box">
-            <div class="text-with-images">
-                {% if True %}
-                <div class="line">
-                    <span>Just #like </span>
-                    <img src="{{ url_for('static', filename=image1) }}" alt="Image 1">
+        </nav>
+        {% if state %}
+            <div class="container">
+                <div class="container green-box">
+                    <div class="text-with-images">
+                        {% if True %}
+                            <div class="my-3 d-flex justify-content-between">
+                                <span>Just #like </span>
+                                <img class="mx-5" id="img1" src="{{ url_for('static', filename=image1) }}" alt="Image 1">
+                            </div>
+                            <div class="my-3 d-flex justify-content-between">
+                                <span>the</span>
+                                <img id="img2" src="{{ url_for('static', filename=image2) }}" alt="Image 2">
+                                <span>“Junlger’s”</span>
+                            </div>
+                            <div class="my-3 d-flex justify-content-between">
+                                <img id="img3" src="{{ url_for('static', filename=image3) }}" alt="Image 3">
+                                <span>(proven)</span>
+                                <img id="img4" src="{{ url_for('static', filename=image4) }}" alt="Image 4">
+                                <span>course*</span>
+                            </div>
+                        {% endif %}
+                    </div>
                 </div>
-                <div class="line">
-                    <span>the</span>
-                    <img src="{{ url_for('static', filename=image2) }}" alt="Image 2">
-                </div>
-                <div class="line">
-                    <span>“Junlger’s”</span>
-                    <img src="{{ url_for('static', filename=image3) }}" alt="Image 3">
-                    <span>(proven)</span>
-                    <img src="{{ url_for('static', filename=image4) }}" alt="Image 4">
-                    <span>course*</span>
-                </div>
-                {% endif %}
-            </div>
-        </div>
-    </header>
 
-    <div class="container my-4">
-        <h2 class="text-center">정글러들의 검증된 코스 그대로</h2>
-        <div class="row row-cols-1 row-cols-md-3 g-4">
-            {% for store in data %}
-            <div class="col">
-                <div class="card h-100">
-                    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-                        <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <img src="{{ store['img_src'][0] }}" class="d-block w-100 " alt="Slide 1">
+                <div class="container">
+                    <h2 class="text-center course my-5">정글러들의 검증된 코스 그대로</h2>
+                    <div class="row row-cols-1 row-cols-md-3 g-4">
+                        {% for store in data %}
+                            <div class="col">
+                                <div class="card h-100">
+                                    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                                        <div class="carousel-inner">
+                                            <div class="carousel-item active">
+                                                <img src="{{ store['img_src'][0] }}" class="d-block w-100 " alt="Slide 1">
+                                            </div>
+                                            <div class="carousel-item">
+                                                <img src="{{ store['img_src'][1] }}" class="d-block w-100 " alt="Slide 2">
+                                            </div>
+                                            <div class="carousel-item">
+                                                <img src="{{ store['img_src'][2] }}" class="d-block w-100 " alt="Slide 3">
+                                            </div>
+                                        </div>
+                                        <button class="carousel-control-prev" type="button"
+                                            data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Previous</span>
+                                        </button>
+                                        <button class="carousel-control-next" type="button"
+                                            data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Next</span>
+                                        </button>
+                                    </div>
+                                    <div class="card-body">
+                                        <a class="card-title" href="/details/{{ store['name'] }}">{{ store["name"] }}</a>
+                                        <p class="card-text">
+                                            {% set ns = namespace(review_count=0, review_score=0) %}
+                                            {% for store_review in review_data %}
+                                                {% if store_review['store_name'] == store_name %}
+                                                    {% set ns.review_count = ns.review_count + 1 %}
+                                                    {% set ns.review_score = ns.review_score + store_review['score'] %}
+                                                {% endif %}
+                                            {% endfor %}
+                                            {{ ns.review_count }}
+                                            <span class="icon">
+                                                <i class="fas fa-thumbs-up"></i>
+                                            </span>
+                                            <span class="text-danger">
+                                                {% if ns.review_count > 0 %}
+                                                    {{ (ns.review_score / ns.review_count)|round(2) }}
+                                                {% else %}
+                                                    0
+                                                {% endif %}
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="carousel-item">
-                                <img src="{{ store['img_src'][1] }}" class="d-block w-100 " alt="Slide 2">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="{{ store['img_src'][2] }}" class="d-block w-100 " alt="Slide 3">
-                            </div>
-                        </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
-                    </div>
-                    <div class="card-body">
-                        <a class="card-title" href="/details/{{ store['name'] }}">{{ store["name"] }}</a>
-                        <p class="card-text">1<span class="text-danger">2</span></p>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
-            {% endfor %}
-        </div>
-    </div>
-    {% else %}
+        {% else %}
         {% for select_store in data %}
             {% if select_store['name'] == store_name %}
                 <div class="container">
@@ -216,11 +272,13 @@
                                 <img src="{{ select_store['img_src'][2] }}" class="d-block" alt="Image 3">
                             </div>
                         </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+                            data-bs-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Previous</span>
                         </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+                            data-bs-slide="next">
                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Next</span>
                         </button>
@@ -231,10 +289,12 @@
                     <h1>Jungle Course</h1>
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="info-tab" data-bs-toggle="tab" data-bs-target="#info" type="button" role="tab" aria-controls="info" aria-selected="true">Info</button>
+                            <button class="nav-link active" id="info-tab" data-bs-toggle="tab" data-bs-target="#info"
+                                type="button" role="tab" aria-controls="info" aria-selected="true">Info</button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="review-tab" data-bs-toggle="tab" data-bs-target="#review" type="button" role="tab" aria-controls="review" aria-selected="false">Review</button>
+                            <button class="nav-link" id="review-tab" data-bs-toggle="tab" data-bs-target="#review" type="button"
+                                role="tab" aria-controls="review" aria-selected="false">Review</button>
                         </li>
                     </ul>
                     <div class="tab-content" id="myTabContent">
@@ -245,12 +305,11 @@
                         <div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
                             {% for store_review in review_data %}
                                 {% if store_review['store_name'] == store_name %}
-                                    <p>{{ store_review['nickname'] }}</p>
-                                    <p>{{ store_review['score'] }}</p>
-                                    <p>{{ store_review['review'] }}</p>
+                                    <p>{{ store_review['nickname'] }}님<span>{{ store_review['score'] }}</span> {{ store_review['review'] }}</p>
                                 {% endif %}
                             {% endfor %}
-                            <input id="review-val" type="text" class="form-control mr-2 w-50" placeholder="한줄평 남겨주세요" maxlength="50">
+                            <input id="review-val" type="text" class="form-control mr-2 w-50" placeholder="한줄평 남겨주세요"
+                                maxlength="50">
                             <select id="score">
                                 <option value="none" selected> 별점을 선택해주세요 </option>
                                 <option value="1"> * </option>
@@ -264,9 +323,10 @@
                     </div>
                 </div>
             {% endif %}
-        {% endfor %}    
-    {% endif %}
+        {% endfor %}
+        {% endif %}
 
-    
+    </div>
 </body>
+
 </html>

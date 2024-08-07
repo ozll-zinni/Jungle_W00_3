@@ -24,7 +24,7 @@ def home():
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         user_info = db.Account.find_one({"Id": payload['id']})
-        return render_template('index2.html',state=state, nickname=user_info["nickname"],image1=Image[0],image2=Image[1],image3=Image[2],image4=Image[3],data=data)
+        return render_template('index2.html',state=state, nickname=user_info["nickname"],image1=Image[0],image2=Image[1],image3=Image[2],image4=Image[3],data=data,review_data=review_data)
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
     except jwt.exceptions.DecodeError:
@@ -63,7 +63,7 @@ def post_review():
     review_list = {'Id' : Id_receive, 'store_name' : store_name_receive, 'nickname': nickname_receive, 'review':review_receive, 'score':score_receive}
     result = db.Review.insert_one(review_list)
     if result:
-        return jsonify({'result': 'success'})
+        return redirect(url_for('details'))
     else:
         return jsonify({'result': 'fail'})
 
