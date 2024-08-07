@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop Information</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookies.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <style>
+        .carousel {
+            max-width: 500px;
+            margin: auto;
+        }
+        .carousel-item img {
+            width: 100%;
+            height: 300px; 
+            object-fit: cover; 
+        }
+        .carousel-control-prev,
+        .carousel-control-next {
+            width: 5%;
+        }
+    </style>
+</head>
+<script>
+    function postreview() {
+        let review = $('#review-val').val()
+        let score = $('#score option:selected').val()
+        let Id = "{{ Id_info }}"
+        let storename = "{{ store_name }}"
+        let nickname = "{{ nickname }}"
+        $.ajax({
+            type: "POST",
+            url: "/api/postreview",
+            data: { review_give: review, score_give: score, Id_give:Id, storename_give:storename, nickname_give:nickname },
+            success: function (response) {
+                if (response["result"] == "success") {
+                    alert("등록 성공");
+                } else {
+                    alert("등록 실패. 다시 시도해주세요");
+                }
+            }
+        })
+    }
+</script>
+<body>
+    {% if True %}
+    <div class="container">
+        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="" class="d-block" alt="Image 1">
+                </div>
+                <div class="carousel-item">
+                    <img src="" class="d-block" alt="Image 2">
+                </div>
+                <div class="carousel-item">
+                    <img src="" class="d-block" alt="Image 3">
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="container mt-5">
+        <h1>Jungle Course</h1>
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="info-tab" data-bs-toggle="tab" data-bs-target="#info" type="button" role="tab" aria-controls="info" aria-selected="true">Info</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="review-tab" data-bs-toggle="tab" data-bs-target="#review" type="button" role="tab" aria-controls="review" aria-selected="false">Review</button>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="info" role="tabpanel" aria-labelledby="info-tab">
+                <p>시간</p>
+                <p>전번</p>
+                <p>소개</p>
+            </div>
+            <div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
+                <p>여기에 리뷰 내용을 입력하세요.</p>
+                <input id="review-val" type="text" class="form-control mr-2 w-50" placeholder="한줄평 남겨주세요" maxlength="50">
+                <select id="score">
+                    <option value="none" selected> 별점을 선택해주세요 </option>
+                    <option value="1"> * </option>
+                    <option value="2"> ** </option>
+                    <option value="3"> *** </option>
+                    <option value="4"> **** </option>
+                    <option value="5"> ***** </option>
+                </select>
+                <button class="btn btn-outline-secondary" type="button" onclick="postreview()">Enter</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</body>
+</html>
