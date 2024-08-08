@@ -148,19 +148,25 @@
         let Id = "{{ Id_info }}"
         let storename = "{{ store_name }}"
         let nickname = "{{ nickname }}"
-        $.ajax({
-            type: "POST",
-            url: "/api/postreview",
-            data: { review_give: review, score_give: score, Id_give: Id, storename_give: storename, nickname_give: nickname },
-            success: function (response) {
-                if (response["result"] == "success") {
-                    alert("등록 성공");
-                    location.href = '/'
-                } else {
-                    alert("등록 실패. 다시 시도해주세요");
+        if (score == 'none') {
+            alert('별점을 선택해주세요!');
+        } else if (review == ''){
+            alert('리뷰를 입력해주세요');
+        } else {
+            $.ajax({
+                type: "POST",
+                url: "/api/postreview",
+                data: { review_give: review, score_give: score, Id_give: Id, storename_give: storename, nickname_give: nickname },
+                success: function (response) {
+                    if (response["result"] == "success") {
+                        alert("등록 성공");
+                        location.href = '/'
+                    } else {
+                        alert("등록 실패. 다시 시도해주세요");
+                    }
                 }
-            }
-        })
+            })
+        }
     }
 </script>
 
