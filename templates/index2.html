@@ -31,6 +31,8 @@
             border-radius: 20px;
             padding: 20px;
             box-sizing: border-box;
+            margin:auto;
+            position: relative;
         }
 
         .text-with-images {
@@ -163,7 +165,7 @@
 </script>
 
 <body>
-    <div class="container-fluid">
+    <!-- <div class="container-fluid"> -->
         <nav class="navbar">
             <a class="navbar-brand nanum-pen-script-regular" href="/">
                 JUNGLE
@@ -181,8 +183,8 @@
             {% endif %}
         </nav>
         {% if state %}
-            <div class="container">
-                <div class="container green-box">
+            
+                <div class="green-box">
                     <div class="text-with-images">
                         {% if True %}
                             <div class="my-3 d-flex justify-content-between">
@@ -264,7 +266,7 @@
                         {% endfor %}
                     </div>
                 </div>
-            </div>
+            
         {% else %}
         {% for select_store in data %}
             {% if select_store['name'] == store_name %}
@@ -348,7 +350,7 @@
             {% endif %}
         {% endfor %}
         {% endif %}
-    </div>
+    <!-- </div> -->
 </body>
 
 
